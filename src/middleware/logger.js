@@ -11,7 +11,7 @@ const getActualRequestDurationInMilliseconds = (start) => {
 let demoLogger = (req, res, next) => {
   let currentDateTime = new Date();
   let year = currentDateTime.getFullYear();
-  let month = currentDateTime.getFullYear();
+  let month = currentDateTime.getMonth() + 1;
   let date = currentDateTime.getDate();
   let hours = currentDateTime.getHours();
   let minutes = currentDateTime.getMinutes();
