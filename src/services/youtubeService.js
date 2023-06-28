@@ -1,4 +1,5 @@
-const { default: axios } = require("axios");
+
+const axios = require("axios");
 const headers = {
     "X-RapidAPI-Key": process.env.RAPID_API_KEY,
     "X-RapidAPI-Host": "youtube-v31.p.rapidapi.com",
@@ -58,22 +59,36 @@ youtubeService.getChannelDetails = async (channelId, part) => {
     return response.data;
 }
 
-youtubeService.getSuggestedVideos = async (relatedVideoId, part) => {
+youtubeService.getRelatedVideos = async (relatedToVideoId, part) => {
     const options = {
         params: {
-            relatedVideoId,
+            relatedToVideoId,
             part,
             type: 'video',
             maxResults: 50
         },
         headers,
     };
-    console.log(`Started getting suggested videos related to video with ID '${relatedVideoId}'`);
+    console.log(`Started getting videos related to video with ID '${relatedToVideoId}'`);
     const response = await axios.get(
         `${process.env.YOUTUBE_BASE_URL}/search`,
         options
     );
-    console.log(`finished getting suggested videos related to video with ID '${relatedVideoId}'`);
+    console.log(`finished getting videos related to video with ID '${relatedToVideoId}'`);
+    return response.data;
+}
+
+youtubeService.getVideoCommentThreads = async (videoId, part, maxResults) => {
+    const options = {
+        params: {
+            part: 'snippet',
+            videoId,
+            maxResults
+        }, headers
+    };
+    console.log(`Started fetching video comments for video id ${videoId}`);
+    console.log(`Finished fetching video comments for video id ${videoId}`);
+    const response = await axios.get(`${process.env.YOUTUBE_BASE_URL}/commentThreads`, options);
     return response.data;
 }
 
